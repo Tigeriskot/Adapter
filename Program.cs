@@ -8,61 +8,68 @@ namespace Adapter
         static void Main(string[] args)
         {
             // путешественник
-            Driver driver = new Driver();
+            Traveler Traveler = new Traveler();
 
             // машина
-            Auto auto = new Auto();
+            Car Car = new Car();
             // отправляемся в путешествие
-            driver.Travel(auto);
+            Traveler.Travel(Car);
 
-            // встретились пески, надо использовать верблюда
-            Camel camel = new Camel();
+            // встретились поля и леса, надо использовать лошадей
+            Horse Horse = new Horse();
             // используем адаптер
-            ITransport camelTransport = new MountsToTransportAdapter(camel);
-            // продолжаем путь по пескам пустыни
-            driver.Travel(camelTransport);
+            ITransport HorseTransport = new MountsToTransportAdapter(Horse);
+            // продолжаем путь по полям и лесам
+            Traveler.Travel(HorseTransport);
 
             //встретились снежные горы, нужно использовать собак
-            SnowDog snowDog = new SnowDog();
+            SnowDog SnowDog = new SnowDog();
             // использование адаптера
-            ITransport snowDogTransport = new MountsToTransportAdapter(snowDog);
+            ITransport SnowDogTransport = new MountsToTransportAdapter(SnowDog);
             //Продолжить путь на собаках
-            driver.Travel(snowDogTransport);
+            Traveler.Travel(SnowDogTransport);
 
             Console.Read();
         }
     }
+
+
+
     interface ITransport
     {
-        void Drive();
+        void Moving();
     }
+
     // класс машины
-    class Auto : ITransport
+    class Car : ITransport
     {
-        public void Drive()
+        public void Moving()
         {
             Console.WriteLine("Машина едет по дороге");
         }
     }
-    // класс водитель, который будет использовать транспорт
-    class Driver
+
+
+
+    // класс путешественник, который будет использовать транспорт
+    class Traveler
     {
         public void Travel(ITransport transport)
         {
-            transport.Drive();
+            transport.Moving();
         }
     }
-    // интерфейс ездовые животные животного
+    // интерфейс ездовые животные 
     interface IMounts 
     {
         void Move();
     }
-    // класс верблюда
-    class Camel : IMounts 
+    // класс лошадь
+    class Horse : IMounts 
     {
         public void Move()
         {
-            Console.WriteLine("Верблюд идет по пескам пустыни");
+            Console.WriteLine("Лошади идут по полям и лесам");
         }
     }
     // класс ездовых собак
@@ -86,7 +93,7 @@ namespace Adapter
             mounts = c;
         }
 
-        public void Drive()
+        public void Moving()
         {
             mounts.Move();
         }
